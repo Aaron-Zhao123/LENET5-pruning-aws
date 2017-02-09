@@ -10,28 +10,22 @@ import training_v5
 
 acc_list = []
 count = 0
-pcov = 90
-pfc = 90
+pcov = 95
+pfc = 95
 retrain = 0
 model_tag = 'pcov'+str(pcov)+'pfc'+str(pfc)
-while (count < 9):
-    if (retrain == 0):
-        pcov = pcov+1
-        pfc = pfc+1
-    else:
-        pass
+while (count < 5):
     param = [
-        ('-pcov',pcov),
-        ('-pfc',pfc),
-        ('-m',model_tag)
-        ]
+    ('-pcov',pcov),
+    ('-pfc',pfc),
+    ('-m',model_tag)
+    ]
+    pcov = pcov+1
+    pfc = pfc+1
     acc = training_v5.main(param)
-    if (acc >= 0.99 or retrain >=3):
-        model_tag = 'pcov'+str(pcov)+'pfc'+str(pfc)
-        acc_list.append(acc)
-        retrain = 0
-        count = count + 1
-    else:
-        retrain += 1
+    model_tag = 'pcov'+str(pcov)+'pfc'+str(pfc)
+    acc_list.append(acc)
+    count = count + 1
     print (acc)
+    
 print('accuracy summary: {}'.format(acc_list))
