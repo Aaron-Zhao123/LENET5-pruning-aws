@@ -19,7 +19,7 @@ class Usage(Exception):
 
 # Parameters
 learning_rate = 1e-4
-training_epochs = 300
+training_epochs = 100
 batch_size = 128
 display_step = 1
 
@@ -356,7 +356,7 @@ def main(argv = None):
                         if (training_cnt % 100 == 0):
                             weights_info(training_cnt, c, train_accuracy, accuracy_mean)
                     # if (training_cnt == 10):
-                    if (accuracy_mean > 0.999 or epoch > 200):
+                    if (accuracy_mean > 0.999 or epoch > 50):
                         print('Training ends')
                         print("saving model ...")
                         test_accuracy = accuracy.eval({
