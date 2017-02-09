@@ -148,16 +148,18 @@ def prune_weights(pruning_cov, pruning_fc, weights, weight_mask, biases, biases_
     next_threshold = {}
     for key in keys_cov:
         weight = weights[key].eval()
+        biase = biases[key].eval()
         next_threshold[key] = np.percentile(np.abs(weight),pruning_cov)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
-        b_threshold[key] = np.percentile(np.abs(bias),percent)
+        b_threshold[key] = np.percentile(np.abs(biase),pruning_cov)
         biases_mask[key] = np.abs(bias) > b_threshold[key]
 
     for key in keys_fc:
         weight = weights[key].eval()
+        biase = biases[key].eval()
         next_threshold[key] = np.percentile(np.abs(weight),pruning_fc)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
-        b_threshold[key] = np.percentile(np.abs(bias),percent)
+        b_threshold[key] = np.percentile(np.abs(biase),pruning_fc)
         biases_mask[key] = np.abs(bias) > b_threshold[key]
 
     with open('mask.pkl', 'wb') as f:
