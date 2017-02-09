@@ -4,8 +4,8 @@ import input_data
 import pickle
 # open_file_name = 'weights_log/weights10.pkl'
 # open_file_name = 'weights_log/weights_quan'+'.pkl'
-open_file_name = 'weights10'+'.pkl'
-open_file_name = 'weights_log/pcov91pfc91'+'.pkl'
+# open_file_name = 'weights10'+'.pkl'
+open_file_name = 'weights_log/pcov92pfc92'+'.pkl'
 # open_file_name = 'weights_log/weights0.pkl'
 Test = True;
 # MASK_GEN = True
