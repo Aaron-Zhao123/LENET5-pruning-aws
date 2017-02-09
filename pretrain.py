@@ -38,10 +38,12 @@ def mask_gen():
     }
     keys = ['cov1', 'cov2', 'fc1', 'fc2']
     masks = {}
+    bmasks = {}
     for key in keys:
         masks[key] = weights[key] != 0
+        bmasks[key] = weights[key] != 0
     with open('mask.pkl', 'wb') as f:
-        pickle.dump(masks,f)
+        pickle.dump((masks, bmasks),f)
 
 
 
