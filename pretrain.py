@@ -41,7 +41,7 @@ def mask_gen():
     bmasks = {}
     for key in keys:
         masks[key] = weights[key] != 0
-        bmasks[key] = weights[key] != 0
+        bmasks[key] = biases[key] != 0
     with open('mask.pkl', 'wb') as f:
         pickle.dump((masks, bmasks),f)
 
