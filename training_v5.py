@@ -153,7 +153,7 @@ def prune_weights(pruning_cov, pruning_fc, weights, weight_mask, biases, biases_
         next_threshold[key] = np.percentile(np.abs(weight),pruning_cov)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
         b_threshold[key] = np.percentile(np.abs(biase),pruning_cov)
-        biases_mask[key] = np.abs(bias) > b_threshold[key]
+        biases_mask[key] = np.abs(biase) > b_threshold[key]
 
     for key in keys_fc:
         weight = weights[key].eval()
@@ -161,7 +161,7 @@ def prune_weights(pruning_cov, pruning_fc, weights, weight_mask, biases, biases_
         next_threshold[key] = np.percentile(np.abs(weight),pruning_fc)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
         b_threshold[key] = np.percentile(np.abs(biase),pruning_fc)
-        biases_mask[key] = np.abs(bias) > b_threshold[key]
+        biases_mask[key] = np.abs(biase) > b_threshold[key]
 
     with open('mask.pkl', 'wb') as f:
         pickle.dump((weight_mask, biases_mask), f)
