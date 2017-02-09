@@ -348,7 +348,7 @@ def main(argv = None):
                             keep_prob: 1.})
                         accuracy_list = np.concatenate((np.array([train_accuracy]),accuracy_list[0:29]))
                         accuracy_mean = np.mean(accuracy_list)
-                        print('Epoch is {}, pruning number is {}'.format(epoch, pruning_number))
+                        print('Epoch is {}, pruning number are {},{}'.format(epoch, pruning_cov, pruning_fc))
                         print('accuracy mean is {}'.format(accuracy_mean))
                         if (training_cnt % 100 == 0):
                             weights_info(training_cnt, c, train_accuracy, accuracy_mean)
