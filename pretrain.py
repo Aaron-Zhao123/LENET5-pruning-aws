@@ -6,11 +6,11 @@ np.set_printoptions(precision=128)
 # open_file_name = 'weights_log/weights10.pkl'
 # open_file_name = 'weights_log/weights_quan'+'.pkl'
 # open_file_name = 'weights10'+'.pkl'
-# open_file_name = 'weights_log/pcov99pfc99'+'.pkl'
-open_file_name = 'weights_log/weights0.pkl'
+open_file_name = 'weights_log/pcov90pfc90'+'.pkl'
+# open_file_name = 'weights_log/weights0.pkl'
 Test = True;
 # MASK_GEN = True
-MASK_GEN = False
+MASK_GEN = True
 sess = tf.InteractiveSession()
 mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
 
