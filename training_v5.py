@@ -169,7 +169,7 @@ def prune_weights(pruning_cov, pruning_fc, weights, weight_mask, biases, biases_
 '''
 mask gradients, for weights that are pruned, stop its backprop
 '''
-def mask_gradients(weights, grads_and_names, weight_masks):
+def mask_gradients(weights, grads_and_names, weight_masks, biases, biases_mask):
     new_grads = []
     keys = ['cov1','cov2','fc1','fc2']
     for grad, var_name in grads_and_names:
@@ -289,7 +289,7 @@ def main(argv = None):
         org_grads = trainer.compute_gradients(cost, var_list = variables, gate_gradients = trainer.GATE_OP)
 
         org_grads = [(ClipIfNotNone(grad), var) for grad, var in org_grads]
-        new_grads = mask_gradients(weights, org_grads, weights_mask)
+        new_grads = mask_gradients(weights, org_grads, weights_mask, biases, biases_mask)
 
         train_step = trainer.apply_gradients(new_grads)
 
