@@ -373,7 +373,7 @@ def main(argv = None):
                                     biases['cov2'].eval(),
                                     biases['fc1'].eval(),
                                     biases['fc2'].eval()),f)
-                            prune_weights(pruning_cov, pruning_fc, weights, weights_mask)
+                            prune_weights(pruning_cov, pruning_fc, weights, weights_mask, biases, biases_mask)
                             mask_info(weights_mask)
                             return test_accuracy
                         else:
