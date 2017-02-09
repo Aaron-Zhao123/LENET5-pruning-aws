@@ -1,5 +1,5 @@
 import os
-import training_v4
+import training_v5
 # os.system('python training_v3.py -p0')
 # os.system('python training_v3.py -p1')
 # os.system('python training_v3.py -p2')
@@ -25,7 +25,7 @@ while (count < 9):
         ('-pfc',pfc),
         ('-m',model_tag)
         ]
-    acc = training_v4.main(param)
+    acc = training_v5.main(param)
     if (acc >= 0.99 or retrain >=3):
         model_tag = 'pcov'+str(pcov)+'pfc'+str(pfc)
         acc_list.append(acc)
