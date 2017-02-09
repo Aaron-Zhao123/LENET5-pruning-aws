@@ -2,11 +2,12 @@ import tensorflow as tf
 import numpy as np
 import input_data
 import pickle
+np.set_printoptions(precision=128)
 # open_file_name = 'weights_log/weights10.pkl'
 # open_file_name = 'weights_log/weights_quan'+'.pkl'
 # open_file_name = 'weights10'+'.pkl'
-open_file_name = 'weights_log/pcov92pfc92'+'.pkl'
-# open_file_name = 'weights_log/weights0.pkl'
+# open_file_name = 'weights_log/pcov99pfc99'+'.pkl'
+open_file_name = 'weights_log/weights0.pkl'
 Test = True;
 # MASK_GEN = True
 MASK_GEN = False
@@ -178,7 +179,7 @@ predict = y_conv.eval({x: mnist.test.images[:64],
                                     keep_prob: 1.0})
 print('-'*79)
 print("View the contents in conv1 layer")
-print(W_conv1.eval())
+print(W_fc2.eval())
 real = mnist.test.labels[:64]
 print('-'*79)
 print("Neural Network's preditiion of 64 images in the test set")

@@ -142,7 +142,7 @@ Prune weights, weights that has absolute value lower than the
 threshold is set to 0
 '''
 
-def prune_weights(pruning_cov, pruning_fc, weights, weight_mask):
+def prune_weights(pruning_cov, pruning_fc, weights, weight_mask, biases, biases_mask):
     keys_cov = ['cov1','cov2','fc1','fc2']
     keys_fc = ['fc1', 'fc2']
     next_threshold = {}
@@ -150,12 +150,18 @@ def prune_weights(pruning_cov, pruning_fc, weights, weight_mask):
         weight = weights[key].eval()
         next_threshold[key] = np.percentile(np.abs(weight),pruning_cov)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
+        b_threshold[key] = np.percentile(np.abs(bias),percent)
+        biases_mask[key] = np.abs(bias) > b_threshold[key]
+
     for key in keys_fc:
         weight = weights[key].eval()
         next_threshold[key] = np.percentile(np.abs(weight),pruning_fc)
         weight_mask[key] = np.abs(weight) > next_threshold[key]
+        b_threshold[key] = np.percentile(np.abs(bias),percent)
+        biases_mask[key] = np.abs(bias) > b_threshold[key]
+
     with open('mask.pkl', 'wb') as f:
-        pickle.dump(weight_mask, f)
+        pickle.dump((weight_mask, biases_mask), f)
 
 # def quantize_a_value(val):
 #
@@ -174,6 +180,10 @@ def mask_gradients(weights, grads_and_names, weight_masks):
             if (weights[key]== var_name):
                 # print(key, weights[key].name, var_name)
                 mask = weight_masks[key]
+                new_grads.append((tf.multiply(tf.constant(mask, dtype = tf.float32),grad),var_name))
+                flag = 1
+            if (biases[key] == var_name):
+                mask = biases_mask[key]
                 new_grads.append((tf.multiply(tf.constant(mask, dtype = tf.float32),grad),var_name))
                 flag = 1
         # if flag is not set
@@ -248,7 +258,7 @@ def main(argv = None):
         pruning_fc = int(pruning_fc)
 
         with open('mask.pkl','rb') as f:
-            weights_mask = pickle.load(f)
+            (weights_mask,biases_mask) = pickle.load(f)
 
         mnist = input_data.read_data_sets("MNIST.data/", one_hot = True)
         # tf Graph input
@@ -301,6 +311,7 @@ def main(argv = None):
             # print(weights['cov1'].eval().flatten())
             for key in keys:
                 sess.run(weights[key].assign(weights[key].eval()*weights_mask[key]))
+                sess.run(biases[key].assign(biases[key].eval()*biases_mask[key]))
 
             # print(weights_mask['cov1'].flatten())
             # print(weights['cov1'].eval().flatten())
@@ -337,6 +348,7 @@ def main(argv = None):
                             keep_prob: 1.})
                         accuracy_list = np.concatenate((np.array([train_accuracy]),accuracy_list[0:29]))
                         accuracy_mean = np.mean(accuracy_list)
+                        print('Epoch is {}, pruning number is {}'.format(epoch, pruning_number))
                         print('accuracy mean is {}'.format(accuracy_mean))
                         if (training_cnt % 100 == 0):
                             weights_info(training_cnt, c, train_accuracy, accuracy_mean)
